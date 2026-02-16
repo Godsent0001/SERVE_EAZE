@@ -2,7 +2,7 @@
 import http from "http";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
-import app from "./app.js";
+import app, { setupSockets } from "./app.js";
 import { startAnalyticsJob } from "./jobs/analytics.job.js";
 import { startRemindersJob } from "./jobs/reminders.job.js";
 import logger from "./utils/logger.js";
@@ -42,7 +42,7 @@ server.listen(PORT, () => {
 });
 
 // ===== Initialize Socket.IO =====
-const io = app.setupSockets(server);
+const io = setupSockets(server);
 console.log("✅ Socket.IO initialized");
 
 // ===== Start Background Jobs =====
