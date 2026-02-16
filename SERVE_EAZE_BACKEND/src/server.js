@@ -3,6 +3,7 @@ import http from "http";
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import app, { setupSockets } from "./app.js";
+import { connectDB } from "./config/db.js";
 import { startAnalyticsJob } from "./jobs/analytics.job.js";
 import { startRemindersJob } from "./jobs/reminders.job.js";
 import logger from "./utils/logger.js";
@@ -15,21 +16,6 @@ console.log("PORT:", process.env.PORT);
 console.log("Mongo URI:", process.env.MONGO_URI);
 
 // ===== MongoDB Connection =====
-const connectDB = async () => {
-  try {
-    const conn = await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    logger.info(`MongoDB Connected: ${conn.connection.host}`);
-    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
-  } catch (err) {
-    logger.error(`MongoDB connection failed: ${err.message}`);
-    console.error(`❌ MongoDB connection failed: ${err.message}`);
-    process.exit(1);
-  }
-};
-
 connectDB();
 
 // ===== Start HTTP Server =====
